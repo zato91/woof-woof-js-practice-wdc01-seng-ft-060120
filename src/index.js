@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 const divDogBar = document.getElementById('dog-bar');
 
-const dogUrl = "http://localhost:3000/pups";
+const dogUrl = "http://localhost:3000/pups/";
 
 function dogFetch(){
 fetch(dogUrl)
@@ -19,7 +19,7 @@ function displayDog(dog){
  spanDog.innerText = dog.name;
  divDogBar.append(spanDog)
 spanDog.addEventListener('click', ()=> {
-        // displayInfo(e)
+    
         displayInfo(dog);
 
 });
@@ -56,20 +56,34 @@ if(dog.isGoodDog === true){
 button.addEventListener('click', () => {
   
     changeDog(dog);
+    fetch(dogUrl+dog.id,options)
+        .then( res => res.json())
+        .then(dog => changeDog(dog))
 })
 
 dogInfo.appendChild(button);
 
 
 
+const options =  {
+    method: "POST",
+    headers: {
+        'content-type' : 'application/json',
+        'accept' : 'application/json'
+    },
+    body: JSON.stringify({
+        isGoodDog: !dog.isGoodDog
+    })
+
+}
+
 const changeDog = (dog) => {
     if(dog.isGoodDog === true){
         button.innerHTML = "Bad Dog!";
-        isGoodDog: !dog.isGoodDog;
-        console.log(dog.isGoodDog)
+       
     } else {
         button.innerHTML = "Good Dog!";
-        isGoodDog: !dog.isGoodDog;
+        
     } }
    
 }
